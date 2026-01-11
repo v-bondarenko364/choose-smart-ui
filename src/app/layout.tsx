@@ -6,6 +6,7 @@ import './globals.css';
 import Providers from '@/components/Providers';
 // import UserHydrationProvider from '@/components/UserHydrationProvider';
 import Header from '@/components/Header';
+import { Box } from '@mui/material';
 // import type { User } from '@/store/types/user';
 
 const inter = Inter({
@@ -34,8 +35,16 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <body suppressHydrationWarning>
         <Providers>
           {/* <UserHydrationProvider initialUser={initialUser} />  */}
-          <Header />
-          {children}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: '100vh',
+            }}
+          >
+            <Header />
+            {children}
+          </Box>
         </Providers>
       </body>
     </html>
