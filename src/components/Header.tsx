@@ -13,10 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getUser, logout } from '@/store/slices/auth';
+import { getIsAuthenticated, logout } from '@/store/slices/auth';
 import { useAppDispatch } from '@/store';
 
 const pages = [
@@ -29,9 +28,7 @@ const Header = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
 
-  const user = useSelector(getUser);
-
-  const isAuthenticated = useMemo(() => !!user, [user]);
+  const isAuthenticated = useSelector(getIsAuthenticated);
 
   const handleLogout = async () => {
     await dispatch(logout());

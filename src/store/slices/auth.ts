@@ -74,7 +74,7 @@ const authSlice = createSlice({
 
 export const { setUser } = authSlice.actions;
 
-// export const getIsAuthenticated = (state: RootState) => !!state.user.profile;
+export const getIsAuthenticated = (state: RootState) => !!state[STATE_KEY].user;
 
 export const getIsLoading = (state: RootState) => state[STATE_KEY].loading;
 
