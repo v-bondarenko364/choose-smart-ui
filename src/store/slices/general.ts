@@ -2,9 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ApiClient } from '@/lib/api';
 
-import type { User } from '../types/auth';
-import type { LoginVendorPayload } from '../types/auth';
 import type { RootState } from '../index';
+import { CreateDecisionPayload, LoginVendorPayload, User } from '../types';
 
 type AuthState = {
   loading: boolean;
@@ -18,7 +17,7 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const STATE_KEY = 'auth';
+export const STATE_KEY = 'general';
 
 export const loginWithVendor = createAsyncThunk<{ user: User }, LoginVendorPayload>(
   `${STATE_KEY}/loginWithVendor`,
@@ -40,6 +39,19 @@ export const logout = createAsyncThunk(`${STATE_KEY}/logout`, async (_, { reject
     return rejectWithValue((error as Error).message);
   }
 });
+
+export const createDecision = createAsyncThunk(
+  `${STATE_KEY}/createDecision`,
+  async (decision: CreateDecisionPayload, { rejectWithValue }) => {
+    try {
+      return await ApiClient.createDecision(decision);
+    } catch (error) {
+      console.error('Error during create decision:', error);
+
+      return rejectWithValue((error as Error).message);
+    }
+  },
+);
 
 const authSlice = createSlice({
   name: STATE_KEY,
@@ -68,6 +80,9 @@ const authSlice = createSlice({
         state.user = null;
         state.loading = false;
         state.error = null;
+      })
+      .addCase(createDecision.rejected, (state, action) => {
+        state.error = action.payload as string;
       });
   },
 });

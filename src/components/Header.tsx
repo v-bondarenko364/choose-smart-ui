@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-import { getIsAuthenticated, logout } from '@/store/slices/auth';
+import { getIsAuthenticated, logout } from '@/store/slices/general';
 import { useAppDispatch } from '@/store';
 
 const pages = [

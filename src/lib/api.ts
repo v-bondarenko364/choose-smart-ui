@@ -1,5 +1,4 @@
-import type { User } from '@/store/types/auth';
-import type { LoginVendorPayload } from '@/store/types/auth';
+import type { User, LoginVendorPayload, CreateDecisionPayload } from '@/store/types';
 
 type ApiResponse<T> = {
   data: T;
@@ -95,5 +94,9 @@ export class ApiClient {
     });
 
     return await response.json();
+  }
+
+  public static async createDecision(decision: CreateDecisionPayload) {
+    return this.request('decisions', 'POST', decision);
   }
 }

@@ -13,7 +13,7 @@ import Link from '@mui/material/Link';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { Container } from '@mui/material';
 import { useAppDispatch } from '@/store';
-import { getUser, loginWithVendor } from '@/store/slices/auth';
+import { getUser, loginWithVendor } from '@/store/slices/general';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import type { PropsWithChildren } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import { getIsAuthenticated, getIsLoading } from '@/store/slices/auth';
+import { getIsAuthenticated, getIsLoading } from '@/store/slices/general';
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {
   const router = useRouter();

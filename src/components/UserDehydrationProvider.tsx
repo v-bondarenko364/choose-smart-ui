@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch } from '@/store';
-import { setUser } from '@/store/slices/auth';
+import { setUser } from '@/store/slices/general';
 import { useEffect } from 'react';
 
 type Props = {

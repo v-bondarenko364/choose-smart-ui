@@ -12,16 +12,16 @@ import {
   FLUSH,
 } from 'redux-persist';
 
-import authReducer from './slices/auth';
+import authReducer from './slices/general';
 
 const authPersistConfig = {
-  key: 'auth',
+  key: 'general',
   storage,
   whitelist: ['user'],
 };
 
 const reducers = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer),
+  general: persistReducer(authPersistConfig, authReducer),
 });
 
 export const store = configureStore({

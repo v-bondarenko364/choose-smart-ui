@@ -7,3 +7,9 @@ export type User = {
   email: string;
   name: string | null;
 };
+
+export type CreateDecisionPayload = {
+  situation: string;
+  decision: string;
+  reasoning: string;
+};
