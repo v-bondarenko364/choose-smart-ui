@@ -8,8 +8,18 @@ export type User = {
   name: string | null;
 };
 
-export type CreateDecisionPayload = {
+export type Decision = {
+  id: number;
   situation: string;
   decision: string;
-  reasoning: string;
+  reasoning?: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  errorMessage: string | null;
+  decisionCategory: 'emotional' | 'strategic' | 'impulsive' | 'rational' | 'intuitive';
+  cognitiveBiases: string;
+  missedAlternatives: string;
+  complexityScore: 'low' | 'medium' | 'high';
+  createdAt: string;
 };
+
+export type CreateDecisionPayload = Pick<Decision, 'situation' | 'decision' | 'reasoning'>;

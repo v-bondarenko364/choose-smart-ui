@@ -1,4 +1,4 @@
-import type { User, LoginVendorPayload, CreateDecisionPayload } from '@/store/types';
+import type { User, LoginVendorPayload, CreateDecisionPayload, Decision } from '@/store/types';
 
 type ApiResponse<T> = {
   data: T;
@@ -75,7 +75,6 @@ export class ApiClient {
     return responseData.data;
   }
 
-  // Auth endpoints
   public static async verifyToken() {
     const { cookies } = await import('next/headers');
     const cookieStore = await cookies();
@@ -98,5 +97,9 @@ export class ApiClient {
 
   public static async createDecision(decision: CreateDecisionPayload) {
     return this.request('decisions', 'POST', decision);
+  }
+
+  public static async getDecisions() {
+    return this.request<Decision[]>('decisions', 'GET');
   }
 }
