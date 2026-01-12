@@ -1,7 +1,7 @@
 import AuthCard from '@/components/home/AuthCard';
 import Box from '@mui/material/Box';
 
-export default function Home() {
+const Home = () => {
   return (
     <Box
       component="main"
@@ -15,4 +15,6 @@ export default function Home() {
       <AuthCard />
     </Box>
   );
-}
+};
+
+export default Home;

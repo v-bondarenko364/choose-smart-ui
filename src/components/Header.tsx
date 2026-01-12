@@ -12,7 +12,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getUser, logout } from '@/store/slices/auth';
+import { useAppDispatch } from '@/store';
 
 const pages = [
   { label: 'Record', href: '/record' },
@@ -20,22 +25,17 @@ const pages = [
 ];
 
 const Header = () => {
+  const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const user = useSelector(getUser);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const isAuthenticated = useMemo(() => !!user, [user]);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleLogout = () => {
-    // TODO: Implement logout logic
-    console.log('Logout clicked');
+  const handleLogout = async () => {
+    await dispatch(logout());
+    router.push('/');
   };
 
   // TODO: utilise that in other components
@@ -69,29 +69,33 @@ const Header = () => {
           <Box
             sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: { xs: 0, md: 2 } }}
           >
-            {pages.map((page) => (
-              <Link href={page.href} key={page.label}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    color: 'white',
-                    fontWeight: pathname === page.href ? 700 : 400,
-                    textDecoration: pathname === page.href ? 'underline' : 'none',
-                  }}
-                >
-                  {page.label}
-                </Button>
-              </Link>
-            ))}
+            {isAuthenticated &&
+              pages.map((page) => (
+                <Link href={page.href} key={page.label}>
+                  <Button
+                    sx={{
+                      color: 'white',
+                      fontWeight: pathname === page.href ? 700 : 400,
+                      textDecoration: pathname === page.href ? 'underline' : 'none',
+                    }}
+                  >
+                    {page.label}
+                  </Button>
+                </Link>
+              ))}
           </Box>
-          <Tooltip title="Profile">
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-          </Tooltip>
-          <Tooltip title="Logout" sx={{ ml: 2 }}>
-            <IconButton onClick={handleLogout} color="inherit">
-              <LogoutIcon />
-            </IconButton>
-          </Tooltip>
+          {isAuthenticated && (
+            <>
+              <Tooltip title="Profile">
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </Tooltip>
+              <Tooltip title="Logout" sx={{ ml: 2 }}>
+                <IconButton onClick={handleLogout} color="inherit">
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

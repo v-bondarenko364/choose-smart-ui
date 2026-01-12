@@ -1,13 +1,14 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-// import { api } from '@/lib/api';
-import './globals.css';
-import Providers from '@/components/Providers';
-// import UserHydrationProvider from '@/components/UserHydrationProvider';
-import Header from '@/components/Header';
 import { Box } from '@mui/material';
-// import type { User } from '@/store/types/user';
+
+import Providers from '@/components/Providers';
+import UserDehydrationProvider from '@/components/UserDehydrationProvider';
+import Header from '@/components/Header';
+import verifyToken from '@/lib/verifyToken';
+
+import './globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,24 +18,18 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'EndurePath',
-  description:
-    'Transform negative thoughts, build resilience, and practice mindfulness consistently!',
+  title: 'ChooseSmart',
+  description: 'Turn tough choices into breakthroughs: capture key decisions and choose smarter',
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  // let initialUser: User | null = null;
-  // const data = await api.fetchUserByToken();
-
-  // if (data?.user) {
-  //   initialUser = data.user;
-  // }
+  const tokenStatus = await verifyToken();
 
   return (
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning>
         <Providers>
-          {/* <UserHydrationProvider initialUser={initialUser} />  */}
+          <UserDehydrationProvider status={tokenStatus} />
           <Box
             sx={{
               display: 'flex',

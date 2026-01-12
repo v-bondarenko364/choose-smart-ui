@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+import React, { useEffect, useState } from 'react';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import NextLink from 'next/link';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -12,15 +12,37 @@ import Avatar from '@mui/material/Avatar';
 import Link from '@mui/material/Link';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { Container } from '@mui/material';
+import { useAppDispatch } from '@/store';
+import { getUser, loginWithVendor } from '@/store/slices/auth';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 const AuthCard = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  const handleGoogleLogin = (credentialResponse: unknown) => {
-    setIsLoading(true);
-    // TODO: Implement Google login logic
-    console.log('Google login:', credentialResponse);
-    setIsLoading(false);
+  const user = useSelector(getUser);
+
+  useEffect(() => {
+    if (user) {
+      router.push('/record');
+    }
+  }, [user, router]);
+
+  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+    try {
+      setIsLoading(true);
+
+      await dispatch(
+        loginWithVendor({
+          token: credentialResponse.credential!,
+        }),
+      );
+    } catch (error) {
+      console.error('Error during sign in:', error);
+      setIsLoading(false);
+    }
   };
 
   return (
