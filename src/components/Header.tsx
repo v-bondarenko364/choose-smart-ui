@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-import { getIsAuthenticated, logout } from '@/store/slices/general';
+import { getIsAuthenticated, getUser, logout } from '@/store/slices/general';
 import { useAppDispatch } from '@/store';
 
 const pages = [
@@ -29,6 +29,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
 
   const isAuthenticated = useSelector(getIsAuthenticated);
+  const user = useSelector(getUser);
 
   const handleLogout = async () => {
     await dispatch(logout());
@@ -81,10 +82,12 @@ const Header = () => {
                 </Link>
               ))}
           </Box>
-          {isAuthenticated && (
+          {isAuthenticated && user && (
             <>
-              <Tooltip title="Profile">
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Tooltip title={user.name}>
+                <Avatar alt={user.name || ''} sx={{ bgcolor: 'secondary.main' }}>
+                  {user.name?.charAt(0).toUpperCase()}
+                </Avatar>
               </Tooltip>
               <Tooltip title="Logout" sx={{ ml: 2 }}>
                 <IconButton onClick={handleLogout} color="inherit">
