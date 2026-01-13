@@ -229,29 +229,18 @@ const DecisionsTable = ({ decisions }: Props) => {
               >
                 Created
               </TableCell>
-              <TableCell
-                sx={{
-                  backgroundColor: 'primary.main',
-                  color: 'primary.contrastText',
-                  fontWeight: 600,
-                  minWidth: 120,
-                  textAlign: 'center',
-                  border: 'none',
-                  '&:not(:last-child)': {
-                    borderRight: 'none',
-                  },
-                }}
-              >
-                Actions
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {localDecisions.map((decision, index) => (
               <TableRow
                 key={decision.id}
+                onClick={() => {
+                  setDetailsIdToShow(decision.id);
+                }}
                 sx={{
                   backgroundColor: index % 2 === 0 ? 'background.paper' : 'action.hover',
+                  cursor: 'pointer',
                   '&:hover': {
                     backgroundColor: 'action.selected',
                   },
@@ -332,7 +321,6 @@ const DecisionsTable = ({ decisions }: Props) => {
                     <Chip
                       label={decision.complexityScore}
                       color={getComplexityColor(decision.complexityScore)}
-                      variant="outlined"
                       size="small"
                       sx={{ textTransform: 'capitalize' }}
                     />
@@ -349,23 +337,6 @@ const DecisionsTable = ({ decisions }: Props) => {
                   }}
                 >
                   {formatDate(decision.createdAt)}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    minWidth: 120,
-                    textAlign: 'center',
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => {
-                      setDetailsIdToShow(decision.id);
-                    }}
-                  >
-                    Details
-                  </Button>
                 </TableCell>
               </TableRow>
             ))}

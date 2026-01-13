@@ -133,7 +133,6 @@ const DecisionInfoModal = ({ decision, onClose, onRegenerate }: Props) => {
                   <Chip
                     label={decision.complexityScore}
                     color={getComplexityColor(decision.complexityScore)}
-                    variant="outlined"
                     size="small"
                     sx={{ textTransform: 'capitalize' }}
                   />

@@ -11,7 +11,7 @@ export const getStatusColor = (status: Decision['status']) => {
     case 'failed':
       return 'error';
     default:
-      return 'default';
+      return 'warning';
   }
 };
 
@@ -28,7 +28,7 @@ export const getCategoryColor = (category: Decision['decisionCategory']) => {
     case 'intuitive':
       return 'secondary';
     default:
-      return 'default';
+      return 'secondary';
   }
 };
 
@@ -37,11 +37,11 @@ export const getComplexityColor = (complexity: Decision['complexityScore']) => {
     case 'low':
       return 'success';
     case 'medium':
-      return 'warning';
+      return 'info';
     case 'high':
       return 'error';
     default:
-      return 'default';
+      return 'success';
   }
 };
 
