@@ -12,7 +12,6 @@ import {
   TableBody,
   Chip,
   Box,
-  Button,
 } from '@mui/material';
 import { getStatusColor, getCategoryColor, getComplexityColor, formatDate } from '@/lib/utils';
 
@@ -219,6 +218,21 @@ const DecisionsTable = ({ decisions }: Props) => {
                   backgroundColor: 'primary.main',
                   color: 'primary.contrastText',
                   fontWeight: 600,
+                  minWidth: 200,
+                  textAlign: 'center',
+                  border: 'none',
+                  '&:not(:last-child)': {
+                    borderRight: 'none',
+                  },
+                }}
+              >
+                Error Message
+              </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: 'primary.contrastText',
+                  fontWeight: 600,
                   minWidth: 120,
                   textAlign: 'center',
                   border: 'none',
@@ -283,9 +297,7 @@ const DecisionsTable = ({ decisions }: Props) => {
                       sx={{ textTransform: 'capitalize' }}
                     />
                   ) : (
-                    <Box component="span" sx={{ color: 'text.secondary' }}>
-                      -
-                    </Box>
+                    '-'
                   )}
                 </TableCell>
                 <TableCell
@@ -296,11 +308,7 @@ const DecisionsTable = ({ decisions }: Props) => {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  {decision.cognitiveBiases || (
-                    <Box component="span" sx={{ color: 'text.secondary' }}>
-                      -
-                    </Box>
-                  )}
+                  {decision.cognitiveBiases || '-'}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -310,11 +318,7 @@ const DecisionsTable = ({ decisions }: Props) => {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  {decision.missedAlternatives || (
-                    <Box component="span" sx={{ color: 'text.secondary' }}>
-                      -
-                    </Box>
-                  )}
+                  {decision.missedAlternatives || '-'}
                 </TableCell>
                 <TableCell>
                   {decision.complexityScore ? (
@@ -325,10 +329,23 @@ const DecisionsTable = ({ decisions }: Props) => {
                       sx={{ textTransform: 'capitalize' }}
                     />
                   ) : (
-                    <Box component="span" sx={{ color: 'text.secondary' }}>
-                      -
-                    </Box>
+                    '-'
                   )}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    maxWidth: 200,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  <Box
+                    component="span"
+                    sx={{ color: decision.errorMessage ? 'error.main' : 'text.secondary' }}
+                  >
+                    {decision.errorMessage || '-'}
+                  </Box>
                 </TableCell>
                 <TableCell
                   sx={{
