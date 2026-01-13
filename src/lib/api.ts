@@ -102,4 +102,8 @@ export class ApiClient {
   public static async getDecisions() {
     return this.request<Decision[]>('decisions', 'GET');
   }
+
+  public static async regenerateDecision(decisionId: number) {
+    return this.request<Decision>(`decisions/${decisionId}/retry`, 'POST');
+  }
 }

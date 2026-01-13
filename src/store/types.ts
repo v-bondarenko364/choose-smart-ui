@@ -15,10 +15,10 @@ export type Decision = {
   reasoning?: string;
   status: 'pending' | 'processing' | 'completed' | 'failed';
   errorMessage: string | null;
-  decisionCategory: 'emotional' | 'strategic' | 'impulsive' | 'rational' | 'intuitive';
-  cognitiveBiases: string;
-  missedAlternatives: string;
-  complexityScore: 'low' | 'medium' | 'high';
+  decisionCategory: 'emotional' | 'strategic' | 'impulsive' | 'rational' | 'intuitive' | null;
+  cognitiveBiases: string | null;
+  missedAlternatives: string | null;
+  complexityScore: 'low' | 'medium' | 'high' | null;
   createdAt: string;
 };
 

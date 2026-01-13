@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 import type { Decision } from '@/store/types';
 import {
@@ -15,19 +15,81 @@ import {
   Button,
 } from '@mui/material';
 import { getStatusColor, getCategoryColor, getComplexityColor, formatDate } from '@/lib/utils';
+
 import DecisionInfoModal from './DecisionInfoModal';
+import { ApiClient } from '@/lib/api';
 
 type Props = {
   decisions: Decision[];
 };
 
 const DecisionsTable = ({ decisions }: Props) => {
+  const [localDecisions, setLocalDecisions] = useState<Decision[]>(decisions);
   const [detailsIdToShow, setDetailsIdToShow] = useState<number | null>(null);
 
+  useEffect(() => {
+    setLocalDecisions(decisions);
+  }, [decisions]);
+
   const selectedDecision = useMemo(
-    () => decisions.find((decision) => decision.id === detailsIdToShow) || null,
-    [decisions, detailsIdToShow],
+    () => localDecisions.find((decision) => decision.id === detailsIdToShow) || null,
+    [localDecisions, detailsIdToShow],
   );
+
+  const onCloseDetailsModal = () => {
+    setDetailsIdToShow(null);
+  };
+
+  const setDecisionToProcessing = (decisionId: number) => {
+    setLocalDecisions((prevDecisions) =>
+      prevDecisions.map((decision) =>
+        decision.id === decisionId
+          ? {
+              ...decision,
+              status: 'processing',
+              errorMessage: null,
+              cognitiveBiases: null,
+              missedAlternatives: null,
+              decisionCategory: null,
+              complexityScore: null,
+            }
+          : decision,
+      ),
+    );
+  };
+
+  const onRegenerateDecision = async () => {
+    if (!detailsIdToShow) return;
+    setDetailsIdToShow(null);
+    setDecisionToProcessing(detailsIdToShow);
+
+    try {
+      const updatedDecision = await ApiClient.regenerateDecision(detailsIdToShow);
+
+      setLocalDecisions((prevDecisions) =>
+        prevDecisions.map((decision) =>
+          decision.id === detailsIdToShow ? updatedDecision : decision,
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+      setLocalDecisions((prevDecisions) =>
+        prevDecisions.map((decision) =>
+          decision.id === detailsIdToShow
+            ? {
+                ...decision,
+                status: 'failed',
+                errorMessage: (error as Error).message || 'Failed to regenerate decision',
+                cognitiveBiases: null,
+                missedAlternatives: null,
+                decisionCategory: null,
+                complexityScore: null,
+              }
+            : decision,
+        ),
+      );
+    }
+  };
 
   return (
     <>
@@ -185,7 +247,7 @@ const DecisionsTable = ({ decisions }: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {decisions.map((decision, index) => (
+            {localDecisions.map((decision, index) => (
               <TableRow
                 key={decision.id}
                 sx={{
@@ -310,7 +372,11 @@ const DecisionsTable = ({ decisions }: Props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <DecisionInfoModal decision={selectedDecision} onClose={() => setDetailsIdToShow(null)} />
+      <DecisionInfoModal
+        decision={selectedDecision}
+        onClose={onCloseDetailsModal}
+        onRegenerate={onRegenerateDecision}
+      />
     </>
   );
 };
