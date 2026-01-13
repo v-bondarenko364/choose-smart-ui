@@ -69,65 +69,87 @@ const RecordPage = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             gap: 3,
           }}
         >
-          <TextField
-            label="Situation Description"
-            multiline
-            rows={6}
-            value={situation}
-            onChange={(e) => {
-              if (e.target.value.length <= MAX_SITUATION_LENGTH) {
-                setSituation(e.target.value);
-                if (errors.situation) {
-                  setErrors({ ...errors, situation: undefined });
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+              Describe the situation or context where you had to make a decision.
+            </Typography>
+            <TextField
+              placeholder="e.g., I received two job offers - one from a startup with higher pay but less stability, and one from an established company with better benefits and work-life balance"
+              multiline
+              rows={5}
+              value={situation}
+              onChange={(e) => {
+                if (e.target.value.length <= MAX_SITUATION_LENGTH) {
+                  setSituation(e.target.value);
+                  if (errors.situation) {
+                    setErrors({ ...errors, situation: undefined });
+                  }
                 }
+              }}
+              error={!!errors.situation}
+              helperText={
+                errors.situation || `${situation.length}/${MAX_SITUATION_LENGTH} characters`
               }
-            }}
-            error={!!errors.situation}
-            helperText={
-              errors.situation || `${situation.length}/${MAX_SITUATION_LENGTH} characters`
-            }
-            required
-            fullWidth
-          />
-          <TextField
-            label="Made decision"
-            multiline
-            rows={4}
-            value={decision}
-            onChange={(e) => {
-              if (e.target.value.length <= MAX_DECISION_LENGTH) {
-                setDecision(e.target.value);
-                if (errors.decision) {
-                  setErrors({ ...errors, decision: undefined });
-                }
-              }
-            }}
-            error={!!errors.decision}
-            helperText={errors.decision || `${decision.length}/${MAX_DECISION_LENGTH} characters`}
-            required
-            fullWidth
-          />
-          <TextField
-            label="Reasoning for Decision (optional)"
-            multiline
-            rows={6}
-            value={reasoning}
-            onChange={(e) => {
-              if (e.target.value.length <= MAX_REASONING_LENGTH) {
-                setReasoning(e.target.value);
-              }
-            }}
-            helperText={`${reasoning.length}/${MAX_REASONING_LENGTH} characters`}
-            fullWidth
-          />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <Button variant="contained" onClick={handleSubmit} sx={{ minWidth: 120 }}>
-              Submit
-            </Button>
+              required
+              fullWidth
+            />
           </Box>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+              Enter the decision you made in this situation.
+            </Typography>
+            <TextField
+              placeholder="e.g., I decided to accept the job offer at the established company"
+              multiline
+              rows={5}
+              value={decision}
+              onChange={(e) => {
+                if (e.target.value.length <= MAX_DECISION_LENGTH) {
+                  setDecision(e.target.value);
+                  if (errors.decision) {
+                    setErrors({ ...errors, decision: undefined });
+                  }
+                }
+              }}
+              error={!!errors.decision}
+              helperText={errors.decision || `${decision.length}/${MAX_DECISION_LENGTH} characters`}
+              required
+              fullWidth
+            />
+          </Box>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+              Optionally explain your reasoning behind this decision.
+            </Typography>
+            <TextField
+              placeholder="e.g., I prioritized long-term stability and work-life balance over immediate financial gain, as I value job security and time with family"
+              multiline
+              rows={4}
+              value={reasoning}
+              onChange={(e) => {
+                if (e.target.value.length <= MAX_REASONING_LENGTH) {
+                  setReasoning(e.target.value);
+                }
+              }}
+              helperText={`${reasoning.length}/${MAX_REASONING_LENGTH} characters`}
+              fullWidth
+            />
+          </Box>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              width: 250,
+              position: 'sticky',
+              bottom: 20,
+            }}
+          >
+            Submit
+          </Button>
         </Box>
       </Container>
     </ProtectedRoute>
