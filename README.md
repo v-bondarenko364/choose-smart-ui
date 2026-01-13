@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ChooseSmart
 
-## Getting Started
+ChooseSmart is an application that helps with decision-making by providing insights for decisions that you've made.
 
-First, run the development server:
+## App Context & Functionality
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This is Next.js app with MUI as component library, redux + redux-persist for storage
+It's deployed on Vercel
+The application consists of the following pages:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Home
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+User can authenticate with Google provider and will be redirected to the `/record` page.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Record
 
-## Learn More
+User can fill out a form with:
 
-To learn more about Next.js, take a look at the following resources:
+- Situation description
+- Made decision
+- Reasoning (optional)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After submission, the decision will be shown on the `/dashboard` page. After async processing, the result (completed / error) will be displayed on the dashboard page.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Dashboard
 
-## Deploy on Vercel
+Represents all decisions for the authenticated user with:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Status (completed / error)
+- Input user data
+- Generated insights
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+User can click on a specific row to get a modal with more detailed information. At the bottom of the modal, there is a 'Regenerate' functionality that will regenerate insights.
+
+## Planned functionality for future
+
+Because lack of time I didn't complete the following functionality:
+
+- theming (implement dark theme), and in general better styling
+- request caching - through SWR and mutation
+- support for pagination and sorting (since I already have all required fields for that, just need to modify endpoint with query params for that)
+- better UI in context of animations, styling
+- UX improvements (e.g. concise description on /record page with examples of content)
+
+## Running Project Locally
+
+1. Create `.env` file based on `.env.example`
+   - You can get `NEXT_PUBLIC_GOOGLE_CLIENT_ID` from GCloud account (OAuth → Web client)
+2. Start the app with:
+   ```bash
+   npm run dev
+   ```
+
+## Environments
+
+### Production
+
+- **Web**: [https://choosesm.art](https://choosesm.art)
+- **Backend**: [https://api.choosesm.art](https://api.choosesm.art)
