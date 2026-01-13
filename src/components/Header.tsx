@@ -36,34 +36,43 @@ const Header = () => {
     router.push('/');
   };
 
-  // TODO: utilise that in other components
-  // <Container maxWidth="xl"></Container>
+  const onHomeNavigate = () => {
+    if (isAuthenticated) {
+      return;
+    }
+    router.push('/');
+  };
+
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link href="/">
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Image
-                src="/logo.png"
-                alt="Logo"
-                width={40}
-                height={40}
-                style={{ objectFit: 'contain' }}
-              />
-              <Typography
-                variant="h6"
-                noWrap
-                sx={{
-                  ml: 2,
-                  display: { xs: 'none', md: 'flex' },
-                  fontWeight: 700,
-                }}
-              >
-                ChooseSmart
-              </Typography>
-            </Box>
-          </Link>
+          <Button
+            onClick={onHomeNavigate}
+            sx={{
+              color: 'white',
+              textTransform: 'none',
+            }}
+          >
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={40}
+              height={40}
+              style={{ objectFit: 'contain' }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                ml: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontWeight: 700,
+              }}
+            >
+              ChooseSmart
+            </Typography>
+          </Button>
           <Box
             sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: { xs: 0, md: 2 } }}
           >

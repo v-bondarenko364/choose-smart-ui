@@ -1,14 +1,12 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Box } from '@mui/material';
+import { Box, CssBaseline } from '@mui/material';
 
 import Providers from '@/components/Providers';
 import UserDehydrationProvider from '@/components/UserDehydrationProvider';
 import Header from '@/components/Header';
 import verifyToken from '@/lib/verifyToken';
-
-import './globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,6 +27,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning>
         <Providers>
+          <CssBaseline />
           <UserDehydrationProvider status={tokenStatus} />
           <Box
             sx={{
